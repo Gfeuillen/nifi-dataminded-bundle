@@ -218,14 +218,8 @@ public class PutBatchJob extends AbstractAWSCredentialsProviderProcessor<AWSBatc
             session.transfer (incomingFlowFile, REL_SUCCESS);
 
         } catch(final Exception e) {
-            //TODO remove this since it's checked for nullity before ?
-            if (incomingFlowFile == null) {
-                getLogger().error("Failed to launch batch job", new Object[]{e});
-            } else {
-                getLogger().error("Failed to launch batch job", new Object[]{incomingFlowFile, e});
-                incomingFlowFile = session.penalize(incomingFlowFile);
-                session.transfer (incomingFlowFile, REL_FAILURE);
-            }
+            getLogger().error("Failed to launch batch job", new Object[]{incomingFlowFile, e});
+            session.transfer (incomingFlowFile, REL_FAILURE);
         }
     }
 
